@@ -15,95 +15,122 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-    display: block;
+  display: block;
 }
 body {
-    line-height: 1;
+  line-height: 1;
 }
 ol, ul {
-    list-style: none;
+  list-style: none;
 }
 blockquote, q {
-    quotes: none;
+  quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-    content: '';
-    content: none;
+  content: '';
+  content: none;
 }
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /*************** END CSS RESET ****************/
 
 .clearfix:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-    }
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+  }
 * html .clearfix             { zoom: 1; } /* IE6 */
 *:first-child+html .clearfix { zoom: 1; } /* IE7 */
 
 /*************** END Clearfix ****************/
 html, body{
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+img{
+  width: 100%;
+  margin: 0 0 0 0;
 }
 
 /*** Layout ***/
 header.page-header{
-    color: #fff;
-    width: 100%;
-    padding: .75rem;
-    position: fixed;
-    top: 0;
-    background: rgba(0, 0, 0, .8);
+  color: #fff;
+  width: 100%;
+  padding: .75rem;
+  position: fixed;
+  top: 0;
+  background: rgba(0, 0, 0, .8);
+  z-index: 30;
 }
 
-
-
-ul li{
-    display: block;
-    width: 25%;
-    height: 200px;
-    overflow: hidden;
-    float: left;
-    background: #000;
-    text-align: center;
+/*** Image Grid ***/
+ul.img-grid li{
+  display: block;
+  width: 25%;
+  height: 200px;
+  overflow: hidden;
+  float: left;
+  background: #000;
+  text-align: center;
+  cursor: pointer;
 }
 
-img{
-    width: 100%;
-    margin: 0 0 0 0;
-    -webkit-transition:width 1s, height 1s, margin 1s;
-    transition:width 1s, height 1s, margin 1s;
+ul.img-grid li img{
+  -webkit-transition:width 1s, height 1s, margin 1s;
+  transition:width 1s, height 1s, margin 1s;
 }
 
-ul li:hover img{
-    width: 110%;
-    margin: -10% 0 0 -5% ;
+ul.img-grid li:hover img{
+  width: 110%;
+  margin: -10% 0 0 -5% ;
     
 }
 
+/*** Lightbox ***/
+.lb-overlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  background: #000;
+  opacity: .75;
+  display: none;
+}
 
+.lightbox {
+  width: 80%;
+  height: 500px;
+  margin: 100px 10%;
+  background: #fff;
+  position: absolute;
+  z-index: 500;
+  border-radius: 4px;
+  display: none;
+}
 
-
-
+.active{
+  display: block;
+}
 
 
 
