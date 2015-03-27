@@ -1,10 +1,9 @@
 /**************************
 * Initialize VanillaLb 
 **************************/
-
 var vanillaLb = new VanillaLb({
   resolution : 'low_resolution',
-  instagramClientId : clientId,
+  instagramClientId : YOUR_INSTAGRAM_CLIENT_KEY,
   instagramTag : 'dog',
   imagesLoadedCallback : imagesLoaded
 });

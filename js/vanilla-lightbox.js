@@ -20,6 +20,10 @@ var VanillaLb = function(opt){
   };
 };
 
+/**
+ * Clears the dom elements and resets the lightbox state
+ * @param  {Function} callback A callback function called after reset
+ */
 VanillaLb.prototype.resetLb = function(callback){
   document.getElementsByClassName('img-grid')[0].innerHTML = '';
   this.currentData = {};
@@ -27,8 +31,11 @@ VanillaLb.prototype.resetLb = function(callback){
   callback();
 };
 
+/**
+ * Creates a script tag and appends it to recieve a jsonp response
+ * @param  {[type]} url The location of the data
+ */
 VanillaLb.prototype.getJsonP = function(url){
-
   var scriptTag = document.createElement('SCRIPT');
   scriptTag.type = 'text/javascript';
   scriptTag.src = url;
@@ -36,7 +43,10 @@ VanillaLb.prototype.getJsonP = function(url){
   document.getElementsByTagName('head')[0].appendChild(scriptTag);
 }
 
-//Use this function as the jsonp callback from instagram
+/**
+ * Use this function as the jsonp callback from instagram
+ * @param  {[type]} gallery An array of image data
+ */
 VanillaLb.prototype.getData = function(gallery){
   if(gallery.meta.code = 200){
     if(!this.currentData.meta){
@@ -44,7 +54,6 @@ VanillaLb.prototype.getData = function(gallery){
     }else{
       //Save previous image set then load more images
       this.previousData.push(this.currentData);
-      //this.currentData = gallery;
       this.currentData.data = this.currentData.data.concat(gallery.data);
     }
     
@@ -56,6 +65,10 @@ VanillaLb.prototype.getData = function(gallery){
   }
 };
 
+/**
+ * Toggles the loading state and graphic
+ * @param  {string} action  Set to 'show' or 'hide' to toggle the loading graphic
+ */
 VanillaLb.prototype.loadingToggle = function(action){
   action  = action || 'show';
 
@@ -69,7 +82,9 @@ VanillaLb.prototype.loadingToggle = function(action){
   }
 };
 
-//Opens overlay and lightbox
+/**
+ * Opens overlay and lightbox
+ */
 VanillaLb.prototype.openLightbox = function(){
   var elements = document.getElementsByClassName('lb');
   for(var i=0; i<elements.length; i++) {
@@ -77,7 +92,9 @@ VanillaLb.prototype.openLightbox = function(){
   }
 };
 
-//Close Lightbox
+/**
+ * Closes the lightbox
+ */
 VanillaLb.prototype.closeLightbox = function(){
   var elements = document.getElementsByClassName('lb');
   for(var i=0; i<elements.length; i++) {
@@ -86,13 +103,18 @@ VanillaLb.prototype.closeLightbox = function(){
   this.clearLightbox();
 };
 
-//Empties the lightbox
+/**
+ * Empties the lightbox
+ */
 VanillaLb.prototype.clearLightbox = function(){
   document.getElementsByClassName('img-frame')[0].innerHTML = '';
 };
 
-//Accepts an array of image objects and the index of the image.
-//returns an image element
+/**
+ * Accepts an array of image objects and the index of the image.
+ * @param  {[type]} index The index of the photo to display
+ * @return {tag}       Returns an image element
+ */
 VanillaLb.prototype.goToPhoto = function(index){
   if(index>=0 && index<this.imageCount){
 
@@ -123,18 +145,25 @@ VanillaLb.prototype.goToPhoto = function(index){
   }
 };
 
-//Advance to the next photo
+/**
+ * Advance to the next photo
+ */
 VanillaLb.prototype.next = function(){
   this.goToPhoto(this.currentImage+1);
 };
 
-//Move back to the previous photo
+/**
+ * Move back to the previous photo
+ */
 VanillaLb.prototype.prev = function(){
   this.goToPhoto(this.currentImage-1);
 };
 
 
-//Setup and append to the page
+/**
+ * Setup and append to the page
+ * @param  {array} images Array of image data
+ */
 VanillaLb.prototype.buildImgGrid = function(images){
   if(!images || images.length === 0){
     alert('No photos matched your tag.  Please try again');
