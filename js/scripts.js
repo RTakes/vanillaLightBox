@@ -1,7 +1,6 @@
 /**************************
 * Initialize VanillaLb 
 **************************/
-var imagesLoadedCount = 0;
 
 var vanillaLb = new VanillaLb({
   resolution : 'low_resolution',
@@ -10,6 +9,10 @@ var vanillaLb = new VanillaLb({
   imagesLoadedCallback : imagesLoaded
 });
 
+
+//Invoked as images load.  Used to show loading state.
+var imagesLoadedCount = 0;
+
 function imagesLoaded(){
  imagesLoadedCount++;
  if(imagesLoadedCount === vanillaLb.imageCount){
@@ -17,8 +20,8 @@ function imagesLoaded(){
  }
 };
 
-
-//Prevent rapid repeaded loading on scroll
+//Setup infinite scroll
+//Prevent rapid repeated loading on scroll
 var throttled = throttle(retrieveData, 1000);
 window.onscroll = function(){
   var pageHeight = document.documentElement.scrollHeight; //max scrollable height
@@ -35,25 +38,18 @@ window.onscroll = function(){
 **************************/
 function retrieveData(url){
   vanillaLb.loadingToggle('show');
-  
-  if(!url){
-    var url = vanillaLb.instagramNextUrl || vanillaLb.instagramUrl+'vanillaLb.getData';
-  }
-
-  var scriptTag = document.createElement('SCRIPT');
-  scriptTag.type = 'text/javascript';
-  scriptTag.src = url;
-
-  document.getElementsByTagName('head')[0].appendChild(scriptTag);
+  url = url || vanillaLb.instagramNextUrl || vanillaLb.instagramUrl+'vanillaLb.getData';
+  vanillaLb.getJsonP(url);
 };
 
+//Get initial data
 retrieveData();
 
 
 /**************************
 * When dom is ready
 **************************/
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
   //Show lightbox when photo is clicked
   document.getElementsByClassName('img-grid')[0].addEventListener('click', function(e) {
     vanillaLb.goToPhoto(e.path[1].dataset.index);
@@ -67,6 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
       vanillaLb.closeLightbox();
     });
   }
+
+  //Search for tag
+  var searchButton = document.getElementById('search-submit');
+  searchButton.addEventListener('click', function(e){
+    vanillaLb.resetLb(function(){
+      imagesLoadedCount = 0;
+      var tag = document.getElementById('search-box').value.replace(' ', '');
+      vanillaLb.setInstagramTag();
+      retrieveData(vanillaLb.instagramUrl+'vanillaLb.getData');
+    });
+  });
 
   //Previous and Next buttons
   var next = document.getElementsByClassName('next');
@@ -86,7 +93,24 @@ document.addEventListener("DOMContentLoaded", function() {
       vanillaLb.goToPhoto(vanillaLb.currentImage-1);
     });
   }
-});
+
+  //Enable keyboard controls
+  document.onkeyup = function(e){
+  switch (e.keyCode) {
+      case 37: //left arrow
+        vanillaLb.prev();
+        break;
+      case 39: //right arrow
+        vanillaLb.next();
+        break;      
+    }
+  };
+
+});//DOMContentLoaded
+
+/**************************
+* Utility Functions
+**************************/
 
 //Throttle based on underscores throttle method
 function throttle(func, wait) {

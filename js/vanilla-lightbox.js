@@ -8,26 +8,31 @@ var VanillaLb = function(opt){
   this.scrollHeight = opt.scrolllHeight || 100;
   this.instagramClientId = opt.instagramClientId,
   this.instagramTag = opt.instagramTag || 'cat';
+  this.instagramCallback = opt.instagramCallback || '';
   this.instagramUrl = 'https://api.instagram.com/v1/tags/'+this.instagramTag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
   this.instagramNextUrl = '';
-
-  function initializeDomElements(){
-    var ul = document.createElement('ul');
-    ul.classList.add('img-grid');
-
-    var lightbox = document.createElement('div');
-    lightbox.classList.add('lightbox');
-
-  } 
-
-  //initialize elements
-  //ul.img-grid
-  //div.lightbox.lb
-    //nav.lb-nav
-    //div.img-frame  
-  //div.lb-overlay.lb
+  this.setInstagramTag = function(tag){
+    this.instagramTag = tag;
+    this.instagramUrl = 'https://api.instagram.com/v1/tags/'+tag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
+  };
 
 };
+
+VanillaLb.prototype.resetLb = function(callback){
+  document.getElementsByClassName('img-grid')[0].innerHTML = '';
+  this.currentData = {};
+  this.imageCount = 0;
+  callback();
+};
+
+VanillaLb.prototype.getJsonP = function(url){
+
+  var scriptTag = document.createElement('SCRIPT');
+  scriptTag.type = 'text/javascript';
+  scriptTag.src = url;
+
+  document.getElementsByTagName('head')[0].appendChild(scriptTag);
+}
 
 //Use this function as the jsonp callback from instagram
 VanillaLb.prototype.getData = function(gallery){
@@ -88,6 +93,13 @@ VanillaLb.prototype.clearLightbox = function(){
 //returns an image element
 VanillaLb.prototype.goToPhoto = function(index){
   if(index>=0 && index<this.imageCount){
+
+    //Load more images
+    if(this.imageCount - index <=2){
+      this.loadingToggle('show');
+      this.getJsonP(this.instagramNextUrl);
+    }
+
     this.currentImage = parseInt(index);
 
     if(this.currentData.data[this.currentImage].caption){    

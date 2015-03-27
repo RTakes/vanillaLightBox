@@ -82,14 +82,19 @@ header.page-header{
   color: #fff;
   width: 100%;
   padding: .75rem;
+  box-sizing: border-box;
   position: fixed;
   top: 0;
   background: rgba(0, 0, 0, .8);
   z-index: 30;
-  text-align: center;
 }
+  header h1{
+    float: left;
+  }
 
-
+  header .search{
+    float: right;
+  }
 
 /*** Image Grid ***/
 ul.img-grid li{
