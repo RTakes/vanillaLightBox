@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
   <title>Vanilla Lightbox</title>
 
@@ -13,6 +14,7 @@
 
   <!-- CSS / FONTS -->
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700,600italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 </head>
@@ -20,8 +22,10 @@
   	<header class="page-header">
       <h1>Vanilla Lightbox</h1>
       <div class="search">
-        <input id="search-box" type="text" placeholder="Instagram Tag">
-        <button id="search-submit">Get Photos</button>
+        <form>
+          <input id="search-box" type="text" placeholder="Instagram Tag">
+          <button id="search-submit">Get Photos</button>
+        </form>
       </div>
   	</header>
 
@@ -30,8 +34,8 @@
 
 
     <div class="lightbox lb">
-      <!-- <div class="close close-btn">X</div> -->
-      <nav class="lb-nav">
+      <div class="close close-btn"><i class="fa fa-times-circle"></i></div>
+      <nav class="lb-nav v-center">
         <ul>
           <li class="prev">
             <i class="fa fa-arrow-circle-o-left"></i>

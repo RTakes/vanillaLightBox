@@ -18,7 +18,6 @@ var VanillaLb = function(opt){
       this.instagramUrl = 'https://api.instagram.com/v1/tags/'+this.instagramTag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
     }
   };
-
 };
 
 VanillaLb.prototype.resetLb = function(callback){
@@ -107,6 +106,7 @@ VanillaLb.prototype.goToPhoto = function(index){
 
     if(this.currentData.data[this.currentImage].caption){    
       var title = document.createElement('h3');
+      title.classList.add('img-caption');
       title.innerHTML = this.currentData.data[this.currentImage].caption.text;
     }
 
@@ -141,20 +141,25 @@ VanillaLb.prototype.buildImgGrid = function(images){
   }
 
   for(var i=0; i<images.length; i++){
+    var dataIndex = 0;
+    if(this.currentData.data.length > images.length){
+      dataIndex = i+this.currentData.data.length-images.length;
+    }else{
+      dataIndex = i;
+    }
 
     var li = document.createElement('li');
-    li.className = 'photo-block';
-    if(this.currentData.data.length > images.length){
-      li.dataset.index = i+this.currentData.data.length-images.length;
-    }else{
-      li.dataset.index = i;
-    }
+    li.className = 'photo-block';    
+    li.dataset.index = dataIndex;
 
     var div = document.createElement('div');
     div.className = 'img-overlay';
+    div.dataset.index = dataIndex; //iPhone fix
+
 
     var img = document.createElement('img');
     img.src = images[i].images[this.resolution].url;
+    
 
     if(this.imagesLoadedCallback){
       img.onload = this.imagesLoadedCallback;

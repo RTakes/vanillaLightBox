@@ -52,9 +52,9 @@ retrieveData();
 document.addEventListener('DOMContentLoaded', function() {
   //Show lightbox when photo is clicked
   document.getElementsByClassName('img-grid')[0].addEventListener('click', function(e) {
-    vanillaLb.goToPhoto(e.path[1].dataset.index);
+    vanillaLb.goToPhoto(e.target.dataset.index);
     vanillaLb.openLightbox();
-  });
+  }, false);
 
   //Close lightbox and overlay
   var close = document.getElementsByClassName('close');
@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
   //Search for tag
   var searchButton = document.getElementById('search-submit');
   searchButton.addEventListener('click', function(e){
+    e.preventDefault();
     vanillaLb.resetLb(function(){
       imagesLoadedCount = 0;
       var tag = document.getElementById('search-box').value.replace(' ', '');
