@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     vanillaLb.resetLb(function(){
       imagesLoadedCount = 0;
       var tag = document.getElementById('search-box').value.replace(' ', '');
-      vanillaLb.setInstagramTag();
+      vanillaLb.setInstagramTag(tag);
       retrieveData(vanillaLb.instagramUrl+'vanillaLb.getData');
     });
   });

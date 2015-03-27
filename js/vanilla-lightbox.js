@@ -9,11 +9,14 @@ var VanillaLb = function(opt){
   this.instagramClientId = opt.instagramClientId,
   this.instagramTag = opt.instagramTag || 'cat';
   this.instagramCallback = opt.instagramCallback || '';
-  this.instagramUrl = 'https://api.instagram.com/v1/tags/'+this.instagramTag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
+  this.instagramUrl = 'https://api.instagram.com/v1/tags/'+encodeURIComponent(this.instagramTag.replace(/\W+/g, ''))+'/media/recent?client_id='+this.instagramClientId+'&callback=';
   this.instagramNextUrl = '';
   this.setInstagramTag = function(tag){
-    this.instagramTag = tag;
-    this.instagramUrl = 'https://api.instagram.com/v1/tags/'+tag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
+    if(tag && tag !== ''){
+      tag = tag.replace(/\W+/g, '');
+      this.instagramTag = encodeURIComponent(tag);
+      this.instagramUrl = 'https://api.instagram.com/v1/tags/'+this.instagramTag+'/media/recent?client_id='+this.instagramClientId+'&callback=';
+    }
   };
 
 };
@@ -133,6 +136,10 @@ VanillaLb.prototype.prev = function(){
 
 //Setup and append to the page
 VanillaLb.prototype.buildImgGrid = function(images){
+  if(!images || images.length === 0){
+    alert('No photos matched your tag.  Please try again');
+  }
+
   for(var i=0; i<images.length; i++){
 
     var li = document.createElement('li');
